@@ -1,7 +1,9 @@
 ﻿using System;
 using Microsoft.Data.Sqlite;
+using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.FileIO;
 
- namespace Habit_Tracker
+namespace Habit_Tracker
  {
     class Program
     {
@@ -40,8 +42,45 @@ using Microsoft.Data.Sqlite;
                 Console.WriteLine("\n\nType 3 to Delete Record.");
                 Console.WriteLine("\n\nType 4 to Update Record.");
                 Console.WriteLine("-------------------------------------------------------------\n");
+
+                string commandInput = Console.ReadLine();
+
+                switch (commandInput)
+                {
+                    case "0":
+                        Console.WriteLine("\nGoodbye!\n");
+                        closeApp = true;
+                        break;
+                    case "1":
+                        Console.WriteLine("\nGoodbye!\n");
+                        closeApp = true;
+                        break;
+                    case "2":
+                        Insert();
+                        closeApp = true;
+                        break;
+                    case "3":
+                        Console.WriteLine("\nGoodbye!\n");
+                        closeApp = true;
+                        break;
+                }
             }
         }
-    }
 
+        private static void Insert()
+        {
+            string date = GetDateInput();
+        }
+
+        internal static string GetDateInput()
+        {
+           Console.WriteLine("\n\nPlease insert the date: (Format: dd-mm-yy). Type 0 to return to main menu.");
+           
+           string dateInput = Console.ReadLine();
+
+           if (dateInput == "0") GetUserInput();
+           
+           return dateInput;
+        }
+    }
  }
