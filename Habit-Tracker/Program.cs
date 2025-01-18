@@ -82,5 +82,19 @@ namespace Habit_Tracker
            
            return dateInput;
         }
+
+        internal static int GetNumberInput(string message)
+        {
+            Console.WriteLine(message);
+
+            string numberInput = Console.ReadLine();
+
+            if(numberInput == "0") GetUserInput();
+
+            int finalInput = Convert.ToInt32(numberInput);
+
+            return finalInput;
+            
+        }
     }
  }
