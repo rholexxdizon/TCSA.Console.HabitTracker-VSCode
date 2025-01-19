@@ -7,9 +7,9 @@ namespace Habit_Tracker
  {
     class Program
     {
+        static string connectionString = @"Data Source=habit-tracker.db";
         static void Main(string[] args)
         {
-            string connectionString = @"Data Source=habit-tracker.db";
 
             using (var connection = new SqliteConnection(connectionString)){
                 connection.Open();
@@ -26,6 +26,8 @@ namespace Habit_Tracker
                 
                 connection.Close();
             }
+
+            GetUserInput();
         }
 
         static void GetUserInput()
@@ -70,6 +72,20 @@ namespace Habit_Tracker
         private static void Insert()
         {
             string date = GetDateInput();
+
+            int quantity = GetNumberInput("\n\nPlease insert number of glasses or other measure of your choice (no decimals allowed).\n\n");
+
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                var tableCmd = connection.CreateCommand();
+                tableCmd.CommandText = 
+                $"INSERT INTO drinking_water(date,quantity) VALUES('{date}, {'quantity'})";
+
+                tableCmd.ExecuteNonQuery();
+
+                connection.Close();
+            }
         }
 
         internal static string GetDateInput()
