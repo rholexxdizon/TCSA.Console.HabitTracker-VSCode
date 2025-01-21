@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.Runtime.InteropServices;
 using Microsoft.Data.Sqlite;
 using Microsoft.VisualBasic;
 using Microsoft.VisualBasic.FileIO;
@@ -20,7 +21,7 @@ namespace Habit_Tracker
                 @"CREATE TABLE IF NOT EXISTS drinking_water (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     Date TEXT,
-                    Quanitity INTEGER
+                    Quantity INTEGER
                     )";
 
                 tableCmd.ExecuteNonQuery();
@@ -64,7 +65,7 @@ namespace Habit_Tracker
                         closeApp = true;
                         break;
                     case "3":
-                        Console.WriteLine("\nGoodbye!\n");
+                        Delete();
                         closeApp = true;
                         break;
                 }
@@ -113,6 +114,33 @@ namespace Habit_Tracker
             }
         }
 
+        private static void Delete()
+        {
+            Console.Clear();
+            GetAllRecords();
+
+            var recordId = GetNumberInput("\n\nPlease type the Id of the record you want to delete or tpye 0 to go back to Main Menu.\n\n");
+            
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                var tableCmd = connection.CreateCommand();
+                tableCmd.CommandText = $"DELETE from drinking_water WHERE Id = '{recordId}'";
+
+                int rowCount = tableCmd.ExecuteNonQuery();
+
+                if(rowCount == 0)
+                {
+                    Console.WriteLine($"\n\nRecord with Id {recordId} doesn't exist. \n\n");
+                    Delete();
+                }
+
+                Console.WriteLine($"\n\nRecord with Id {recordId} was deleted.");
+
+                GetUserInput();
+            }      
+        }
+
         private static void Insert()
         {
             string date = GetDateInput();
@@ -124,7 +152,7 @@ namespace Habit_Tracker
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
                 tableCmd.CommandText = 
-                $"INSERT INTO drinking_water(date,quanitity) VALUES('{date}, {quantity}')";
+                $"INSERT INTO drinking_water(date,quantity) VALUES('{date}', '{quantity}')";
 
                 tableCmd.ExecuteNonQuery();
 
