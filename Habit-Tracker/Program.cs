@@ -42,10 +42,10 @@ namespace Habit_Tracker
                 Console.WriteLine("\n\nMAIN MENU");
                 Console.WriteLine("\n\nWhat would you like to do?");
                 Console.WriteLine("\n\nType 0 to Close Application");
-                Console.WriteLine("\n\nType 1 to View All Records.");
-                Console.WriteLine("\n\nType 2 to Insert Record.");
-                Console.WriteLine("\n\nType 3 to Delete Record.");
-                Console.WriteLine("\n\nType 4 to Update Record.");
+                Console.WriteLine("Type 1 to View All Records.");
+                Console.WriteLine("Type 2 to Insert Record.");
+                Console.WriteLine("Type 3 to Delete Record.");
+                Console.WriteLine("Type 4 to Update Record.");
                 Console.WriteLine("-------------------------------------------------------------\n");
 
                 string commandInput = Console.ReadLine();
@@ -55,22 +55,23 @@ namespace Habit_Tracker
                     case "0":
                         Console.WriteLine("\nGoodbye!\n");
                         closeApp = true;
+                        Environment.Exit(0);
                         break;
                     case "1":
-                        Console.WriteLine("\nGoodbye!\n");
                         GetAllRecords();
-                        closeApp = true;
                         break;
                     case "2":
                         Insert();
-                        closeApp = true;
                         break;
                     case "3":
                         Delete();
-                        closeApp = true;
                         break;
                     case "4":
                         Update();
+                        break;
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("Invalid command. Please type a number from 0 to 4.");
                         break;
                 }
             }
@@ -86,7 +87,7 @@ namespace Habit_Tracker
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
                 tableCmd.CommandText = 
-                    $"SELECT * FROM drinking_water ";
+                    $"SELECT * FROM drinking_water";
 
                 List<DrinkingWater> tableData = new();
 
@@ -102,7 +103,7 @@ namespace Habit_Tracker
                             Id = reader.GetInt32(0),
                             Date = DateTime.ParseExact(reader.GetString(1), "dd-MM-yy", new CultureInfo("en-US")),
                             Quantity = reader.GetInt32(2)                
-                        });
+                        });;
                     }
                 }
                 else
@@ -211,6 +212,11 @@ namespace Habit_Tracker
 
            if (dateInput == "0") GetUserInput();
            
+           while(!DateTime.TryParseExact(dateInput, "dd-MM-yy", new CultureInfo("en-US"), DateTimeStyles.None, out _))
+           {
+                Console.WriteLine("\n\nInvalid date. (Format: dd-MM-yy. Type 0 to return to main menu or try again:\n\n)");
+                dateInput = Console.ReadLine();
+           }
            return dateInput;
         }
 
@@ -222,6 +228,12 @@ namespace Habit_Tracker
 
             if(numberInput == "0") GetUserInput();
 
+            
+            while(!Int32.TryParse(numberInput, out _) || Convert.ToInt32(numberInput) < 0)
+            {
+                Console.WriteLine("Invalid number. Try again.\n\n");
+                numberInput = Console.ReadLine();
+            }
             int finalInput = Convert.ToInt32(numberInput);
 
             return finalInput;
