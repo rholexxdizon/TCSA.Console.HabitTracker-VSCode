@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using Microsoft.Data.Sqlite;
@@ -68,9 +69,14 @@ namespace Habit_Tracker
                         Delete();
                         closeApp = true;
                         break;
+                    case "4":
+                        Update();
+                        break;
                 }
             }
         }
+
+        
 
         private static void GetAllRecords()
         {
@@ -157,6 +163,43 @@ namespace Habit_Tracker
                 tableCmd.ExecuteNonQuery();
 
                 connection.Close();
+            }
+        }
+
+        internal static void Update()
+        {
+            Console.Clear();
+            GetAllRecords();
+
+            var recordId = GetNumberInput("\n\nPlease type Id of the record you would like to update. Type 0 to main menu.\n\n");
+
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+
+                var checkCmd = connection.CreateCommand();
+                checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM drinking_water WHERE id = {recordId})";
+                int checkQuery = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                if (checkQuery == 0)
+                {
+                    Console.WriteLine($"\n\nRecord with Id {recordId} does not exist.\n\n");
+                    connection.Close();
+                    Update();
+                }
+
+                string date = GetDateInput();
+
+                int quantity = GetNumberInput("\n\nPlease insert number of glasses or other measure of your choice (no decimals allowed).\n\n");
+
+                var tableCmd = connection.CreateCommand();
+                tableCmd.CommandText = 
+                $"UPDATE drinking_water SET date = '{date}', quantity = {quantity} WHERE Id = {recordId}";
+                
+                tableCmd.ExecuteNonQuery();
+
+                connection.Close();
+                
             }
         }
 
