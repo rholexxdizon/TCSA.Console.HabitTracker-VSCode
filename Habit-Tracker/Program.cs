@@ -39,6 +39,7 @@ namespace Habit_Tracker
             bool closeApp = false;
             while (closeApp == false)
             {
+                Console.WriteLine("\n\nThe CSharp Academy Console Calculator");
                 Console.WriteLine("\n\nMAIN MENU");
                 Console.WriteLine("\n\nWhat would you like to do?");
                 Console.WriteLine("\n\nType 0 to Close Application");
