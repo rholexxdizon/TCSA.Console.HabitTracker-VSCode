@@ -43,11 +43,13 @@ namespace Habit_Tracker
                 Console.WriteLine("\n\nMAIN MENU");
                 Console.WriteLine("\n\nWhat would you like to do?");
                 Console.WriteLine("\n\nType 0 to Close Application");
-                Console.WriteLine("Type 1 to View All Records.");
-                Console.WriteLine("Type 2 to Insert Record.");
-                Console.WriteLine("Type 3 to Delete Record.");
-                Console.WriteLine("Type 4 to Update Record.");
-                Console.WriteLine("-------------------------------------------------------------\n");
+                Console.WriteLine("\n\nType 1: Create a new habit.");
+                // Console.WriteLine("Type 2: Choose on the existing habits.");
+                // Console.WriteLine("Type 1 to View All Records.");
+                // Console.WriteLine("Type 2 to Insert Record.");
+                // Console.WriteLine("Type 3 to Delete Record.");
+                // Console.WriteLine("Type 4 to Update Record.");
+                // Console.WriteLine("-------------------------------------------------------------\n");
 
                 string commandInput = Console.ReadLine();
 
