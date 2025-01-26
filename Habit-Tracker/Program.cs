@@ -44,12 +44,7 @@ namespace Habit_Tracker
                 Console.WriteLine("\n\nWhat would you like to do?");
                 Console.WriteLine("\n\nType 0 to Close Application");
                 Console.WriteLine("\n\nType 1: Create a new habit.");
-                // Console.WriteLine("Type 2: Choose on the existing habits.");
-                // Console.WriteLine("Type 1 to View All Records.");
-                // Console.WriteLine("Type 2 to Insert Record.");
-                // Console.WriteLine("Type 3 to Delete Record.");
-                // Console.WriteLine("Type 4 to Update Record.");
-                // Console.WriteLine("-------------------------------------------------------------\n");
+                
 
                 string commandInput = Console.ReadLine();
 
@@ -80,7 +75,47 @@ namespace Habit_Tracker
             }
         }
 
-        
+        static void GetUserInput()
+        {
+            Console.Clear();
+            bool closeApp = false;
+            while (closeApp == false)
+            {
+                Console.WriteLine("\n\nThe CSharp Academy Console Calculator");
+                Console.WriteLine("\n\nMAIN MENU");
+                Console.WriteLine("\n\nWhat would you like to do?");
+                Console.WriteLine("\n\nType 0 to Close Application");
+                Console.WriteLine("\n\nType 1: Create a new habit.");
+                
+
+                string commandInput = Console.ReadLine();
+
+                switch (commandInput)
+                {
+                    case "0":
+                        Console.WriteLine("\nGoodbye!\n");
+                        closeApp = true;
+                        Environment.Exit(0);
+                        break;
+                    case "1":
+                        GetAllRecords();
+                        break;
+                    case "2":
+                        Insert();
+                        break;
+                    case "3":
+                        Delete();
+                        break;
+                    case "4":
+                        Update();
+                        break;
+                    default:
+                        Console.Clear();
+                        Console.WriteLine("Invalid command. Please type a number from 0 to 4.");
+                        break;
+                }
+            }
+        }
 
         private static void GetAllRecords()
         {
