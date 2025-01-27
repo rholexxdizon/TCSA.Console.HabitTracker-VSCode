@@ -30,10 +30,10 @@ namespace Habit_Tracker
                 connection.Close();
             }
 
-            GetUserInput();
+            GetUserInputMenu();
         }
 
-        static void GetUserInput()
+        static void GetUserInputMenu()
         {
             Console.Clear();
             bool closeApp = false;
@@ -42,13 +42,13 @@ namespace Habit_Tracker
                 Console.WriteLine("\n\nThe CSharp Academy Console Calculator");
                 Console.WriteLine("\n\nMAIN MENU");
                 Console.WriteLine("\n\nWhat would you like to do?");
-                Console.WriteLine("\n\nType 0 to Close Application");
-                Console.WriteLine("\n\nType 1: Create a new habit.");
+                Console.WriteLine("\n\nType 0 - Close Application");
+                Console.WriteLine("\n\nType 1 - Create a New Habit");
+                Console.WriteLine("\n\nType 2 - Choose an Existing Habit");
+
+                string choice = Console.ReadLine();
                 
-
-                string commandInput = Console.ReadLine();
-
-                switch (commandInput)
+                switch (choice)
                 {
                     case "0":
                         Console.WriteLine("\nGoodbye!\n");
@@ -56,10 +56,11 @@ namespace Habit_Tracker
                         Environment.Exit(0);
                         break;
                     case "1":
-                        GetAllRecords();
+                        Console.WriteLine("");
+                        CreateHabit();
                         break;
                     case "2":
-                        Insert();
+                        GetUserInput();
                         break;
                     case "3":
                         Delete();
@@ -75,6 +76,21 @@ namespace Habit_Tracker
             }
         }
 
+        static void CreateHabit()
+        {
+            Console.Clear();
+            Console.WriteLine("Enter habit name:");
+            string habitName = Console.ReadLine();
+            Console.WriteLine("Enter habit date:");
+            string habitDate = Console.ReadLine();
+            Console.WriteLine("How do you measure your habit:");
+            string habitMeasure = Console.ReadLine();
+
+            Console.WriteLine($"Your newly created habit is: {habitName}. Is this correct?");
+            
+
+        }
+
         static void GetUserInput()
         {
             Console.Clear();
@@ -84,8 +100,12 @@ namespace Habit_Tracker
                 Console.WriteLine("\n\nThe CSharp Academy Console Calculator");
                 Console.WriteLine("\n\nMAIN MENU");
                 Console.WriteLine("\n\nWhat would you like to do?");
-                Console.WriteLine("\n\nType 0 to Close Application");
-                Console.WriteLine("\n\nType 1: Create a new habit.");
+                Console.WriteLine("\n\nType 0 - Close Application");
+                Console.WriteLine("\n\nType 1 - Get All Records");
+                Console.WriteLine("\n\nType 2 - Create a Record");
+                Console.WriteLine("\n\nType 3 - Delete a Record");
+                Console.WriteLine("\n\nType 4 - Update a Record");
+                
                 
 
                 string commandInput = Console.ReadLine();
