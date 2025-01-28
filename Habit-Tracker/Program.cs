@@ -13,23 +13,6 @@ namespace Habit_Tracker
         static string connectionString = @"Data Source=habit-tracker.db";
         static void Main(string[] args)
         {
-
-            using (var connection = new SqliteConnection(connectionString)){
-                connection.Open();
-                var tableCmd = connection.CreateCommand();
-                
-                tableCmd.CommandText = 
-                @"CREATE TABLE IF NOT EXISTS drinking_water (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    Date TEXT,
-                    Quantity INTEGER
-                    )";
-
-                tableCmd.ExecuteNonQuery();
-                
-                connection.Close();
-            }
-
             GetUserInputMenu();
         }
 
@@ -41,10 +24,10 @@ namespace Habit_Tracker
             {
                 Console.WriteLine("\n\nThe CSharp Academy Console Calculator");
                 Console.WriteLine("\n\nMAIN MENU");
-                Console.WriteLine("\n\nWhat would you like to do?");
-                Console.WriteLine("\n\nType 0 - Close Application");
-                Console.WriteLine("\n\nType 1 - Create a New Habit");
-                Console.WriteLine("\n\nType 2 - Choose an Existing Habit");
+                Console.WriteLine("What would you like to do?");
+                Console.WriteLine("Type 0 - Close Application");
+                Console.WriteLine("Type 1 - Create a New Habit");
+                Console.WriteLine("Type 2 - Choose an Existing Habit");
 
                 string choice = Console.ReadLine();
                 
@@ -79,16 +62,31 @@ namespace Habit_Tracker
         static void CreateHabit()
         {
             Console.Clear();
-            Console.WriteLine("Enter habit name:");
+            Console.WriteLine("Enter Habit Name:");
             string habitName = Console.ReadLine();
-            Console.WriteLine("Enter habit date:");
-            string habitDate = Console.ReadLine();
-            Console.WriteLine("How do you measure your habit:");
-            string habitMeasure = Console.ReadLine();
+            string modifiedInput = habitName.Replace(" ", "_").ToLower();
+            Console.WriteLine($"Habit Name: {modifiedInput}");
+            Console.ReadKey();
+            // Console.WriteLine("Enter habit date:");
+            // string habitDate = Console.ReadLine();
+            // Console.WriteLine("How do you measure your habit:");
+            // string habitMeasure = Console.ReadLine();
 
-            Console.WriteLine($"Your newly created habit is: {habitName}. Is this correct?");
-            
+            using (var connection = new SqliteConnection(connectionString)){
+                connection.Open();
+                var tableCmd = connection.CreateCommand();
+                
+                tableCmd.CommandText = 
+                @$"CREATE TABLE IF NOT EXISTS {modifiedInput} (
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Date TEXT,
+                    Quantity INTEGER
+                    )";
 
+                tableCmd.ExecuteNonQuery();
+                
+                connection.Close();
+            }
         }
 
         static void GetUserInput()
@@ -100,13 +98,11 @@ namespace Habit_Tracker
                 Console.WriteLine("\n\nThe CSharp Academy Console Calculator");
                 Console.WriteLine("\n\nMAIN MENU");
                 Console.WriteLine("\n\nWhat would you like to do?");
-                Console.WriteLine("\n\nType 0 - Close Application");
-                Console.WriteLine("\n\nType 1 - Get All Records");
-                Console.WriteLine("\n\nType 2 - Create a Record");
-                Console.WriteLine("\n\nType 3 - Delete a Record");
-                Console.WriteLine("\n\nType 4 - Update a Record");
-                
-                
+                Console.WriteLine("Type 0 - Close Application");
+                Console.WriteLine("Type 1 - Get All Records");
+                Console.WriteLine("Type 2 - Create a Record");
+                Console.WriteLine("Type 3 - Delete a Record");
+                Console.WriteLine("Type 4 - Update a Record");
 
                 string commandInput = Console.ReadLine();
 
