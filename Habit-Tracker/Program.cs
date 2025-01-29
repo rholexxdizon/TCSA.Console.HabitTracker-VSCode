@@ -65,27 +65,48 @@ namespace Habit_Tracker
             Console.WriteLine("Enter Habit Name:");
             string habitName = Console.ReadLine();
             string modifiedInput = habitName.Replace(" ", "_").ToLower();
-            Console.WriteLine($"Habit Name: {modifiedInput}");
+            string quotedHabitName = $"\"{modifiedInput}\"";
+            Console.WriteLine($"Habit Name: {quotedHabitName}");
             Console.ReadKey();
             // Console.WriteLine("Enter habit date:");
             // string habitDate = Console.ReadLine();
             // Console.WriteLine("How do you measure your habit:");
             // string habitMeasure = Console.ReadLine();
-
-            using (var connection = new SqliteConnection(connectionString)){
+            
+            using (var connection = new SqliteConnection(connectionString))
+            {
                 connection.Open();
-                var tableCmd = connection.CreateCommand();
-                
-                tableCmd.CommandText = 
-                @$"CREATE TABLE IF NOT EXISTS {modifiedInput} (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    Date TEXT,
-                    Quantity INTEGER
-                    )";
 
-                tableCmd.ExecuteNonQuery();
+                var checkHabitName = connection.CreateCommand();
+
+                checkHabitName.CommandText = 
+                @$"SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name={quotedHabitName}";
+
+                long tableCount = (long)checkHabitName.ExecuteScalar();
+
+                if (tableCount > 0)
+                {
+                    Console.WriteLine("Habit name is already taken.");
+                }
                 
-                connection.Close();
+                else
+                {
+                    var tableCmd = connection.CreateCommand();
+                    
+                    tableCmd.CommandText = 
+                    @$"CREATE TABLE IF NOT EXISTS {modifiedInput} (
+                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        Date TEXT,
+                        Quantity INTEGER
+                        )";
+
+                    tableCmd.ExecuteNonQuery();
+
+                    Console.WriteLine("New habit table created.");
+                    
+                    connection.Close();
+                }
+
             }
         }
 
