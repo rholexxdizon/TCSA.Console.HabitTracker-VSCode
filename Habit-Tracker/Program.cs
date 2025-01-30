@@ -43,7 +43,7 @@ namespace Habit_Tracker
                         CreateHabit();
                         break;
                     case "2":
-                        GetUserInput();
+                        ChooseHabit();
                         break;
                     case "3":
                         Delete();
@@ -160,17 +160,24 @@ namespace Habit_Tracker
             bool closeApp = false;
             while (closeApp == false)
             {
-                Console.WriteLine("\n\nThe CSharp Academy Console Calculator");
-                Console.WriteLine("\n\nMAIN MENU");
-                Console.WriteLine("\n\nWhat would you like to do?");
-                Console.WriteLine("Type 0 - Close Application");
-                Console.WriteLine("Type 1 - Get All Records");
-                Console.WriteLine("Type 2 - Create a Record");
-                Console.WriteLine("Type 3 - Delete a Record");
-                Console.WriteLine("Type 4 - Update a Record");
+                // Console.WriteLine("\n\nThe CSharp Academy Console Calculator");
+                // Console.WriteLine("\n\nMAIN MENU");
+                // Console.WriteLine("\n\nWhat would you like to do?");
+                // Console.WriteLine("Type 0 - Close Application");
+                // Console.WriteLine("Type 1 - Get All Records");
+                // Console.WriteLine("Type 2 - Create a Record");
+                // Console.WriteLine("Type 3 - Delete a Record");
+                // Console.WriteLine("Type 4 - Update a Record");
+
+                List<string> tableNames = GetTableNames(connectionString);
+                Console.WriteLine("List of Available Habits:");
+                for(int i = 0; i < tableNames.Count; i++)
+                {
+                    Console.WriteLine($"{i+1}. {tableNames[i]}");
+                }
 
                 string commandInput = Console.ReadLine();
-
+                
                 switch (commandInput)
                 {
                     case "0":
@@ -196,6 +203,30 @@ namespace Habit_Tracker
                         break;
                 }
             }
+        }
+
+        static List<string> GetTableNames(string connectionString)
+        {
+            List<string> tableNames = new List<string>();
+
+            using (var connection = new SqliteConnection(connectionString))
+            {
+                connection.Open();
+                string query = 
+                @$"SELECT name FROM sqlite_master WHERE type='table' AND name != 'sqlite_sequence'";
+
+                using (SqliteCommand command = new SqliteCommand(query, connection))
+                {
+                    SqliteDataReader reader = command.ExecuteReader();
+                    while(reader.Read())
+                    {
+                        tableNames.Add(reader.GetString(0));
+                    }
+                }
+
+            }
+            return tableNames;
+
         }
 
         private static void GetAllRecords()
