@@ -59,7 +59,7 @@ namespace Habit_Tracker
             }
         }
 
-        static void CreateHabit()
+        static CreateHabit(string habit)
         {
             Console.Clear();
             Console.WriteLine("Enter Habit Name:");
@@ -160,48 +160,20 @@ namespace Habit_Tracker
             bool closeApp = false;
             while (closeApp == false)
             {
-                // Console.WriteLine("\n\nThe CSharp Academy Console Calculator");
-                // Console.WriteLine("\n\nMAIN MENU");
-                // Console.WriteLine("\n\nWhat would you like to do?");
-                // Console.WriteLine("Type 0 - Close Application");
-                // Console.WriteLine("Type 1 - Get All Records");
-                // Console.WriteLine("Type 2 - Create a Record");
-                // Console.WriteLine("Type 3 - Delete a Record");
-                // Console.WriteLine("Type 4 - Update a Record");
-
+                
                 List<string> tableNames = GetTableNames(connectionString);
+
                 Console.WriteLine("List of Available Habits:");
+
                 for(int i = 0; i < tableNames.Count; i++)
                 {
                     Console.WriteLine($"{i+1}. {tableNames[i]}");
                 }
 
-                string commandInput = Console.ReadLine();
-                
-                switch (commandInput)
-                {
-                    case "0":
-                        Console.WriteLine("\nGoodbye!\n");
-                        closeApp = true;
-                        Environment.Exit(0);
-                        break;
-                    case "1":
-                        GetAllRecords();
-                        break;
-                    case "2":
-                        Insert();
-                        break;
-                    case "3":
-                        Delete();
-                        break;
-                    case "4":
-                        Update();
-                        break;
-                    default:
-                        Console.Clear();
-                        Console.WriteLine("Invalid command. Please type a number from 0 to 4.");
-                        break;
-                }
+                Console.WriteLine("Enter the number of the habit you'd like to log data: ");
+
+                string habitChoi
+
             }
         }
 
@@ -237,7 +209,7 @@ namespace Habit_Tracker
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
                 tableCmd.CommandText = 
-                    $"SELECT * FROM drinking_water";
+                    $"SELECT * FROM {habit}";
 
                 List<DrinkingWater> tableData = new();
 
