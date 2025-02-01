@@ -49,7 +49,7 @@ namespace Habit_Tracker
                         Delete();
                         break;
                     case "4":
-                        Update();
+                        Update("");
                         break;
                     default:
                         Console.Clear();
@@ -59,7 +59,7 @@ namespace Habit_Tracker
             }
         }
 
-        static CreateHabit(string habit)
+        static void CreateHabit()
         {
             Console.Clear();
             Console.WriteLine("Enter Habit Name:");
@@ -110,7 +110,37 @@ namespace Habit_Tracker
             }
         }
 
-        static void GetUserInput()
+        static void ChooseHabit()
+        {
+            Console.Clear();
+            bool closeApp = false;
+            while (closeApp == false)
+            {
+                
+                List<string> tableNames = GetTableNames(connectionString);
+
+                Console.WriteLine("List of Available Habits:");
+
+                for(int i = 0; i < tableNames.Count; i++)
+                {
+                    Console.WriteLine($"{i+1}. {tableNames[i]}");
+                }
+
+                Console.WriteLine("Enter the number of the habit you'd like to log data: ");
+
+                string habitChoice = Console.ReadLine();
+                
+                int habitIndex;
+                if(int.TryParse(habitChoice, out habitIndex) && habitIndex > 0 && habitIndex <= tableNames.Count)
+                {
+                    string selectedHabit = tableNames[habitIndex - 1];
+                    Console.WriteLine($"You selected: {selectedHabit.Replace("_", " ").ToUpper()}");
+                    GetUserInput(selectedHabit);
+                }
+            }
+        }
+
+        static void GetUserInput(string habit)
         {
             Console.Clear();
             bool closeApp = false;
@@ -135,16 +165,16 @@ namespace Habit_Tracker
                         Environment.Exit(0);
                         break;
                     case "1":
-                        GetAllRecords();
+                        GetAllRecords(habit);
                         break;
                     case "2":
-                        Insert();
+                        Insert(habit);
                         break;
                     case "3":
                         Delete();
                         break;
                     case "4":
-                        Update();
+                        Update(habit);
                         break;
                     default:
                         Console.Clear();
@@ -154,28 +184,7 @@ namespace Habit_Tracker
             }
         }
 
-        static void ChooseHabit()
-        {
-            Console.Clear();
-            bool closeApp = false;
-            while (closeApp == false)
-            {
-                
-                List<string> tableNames = GetTableNames(connectionString);
-
-                Console.WriteLine("List of Available Habits:");
-
-                for(int i = 0; i < tableNames.Count; i++)
-                {
-                    Console.WriteLine($"{i+1}. {tableNames[i]}");
-                }
-
-                Console.WriteLine("Enter the number of the habit you'd like to log data: ");
-
-                string habitChoi
-
-            }
-        }
+        
 
         static List<string> GetTableNames(string connectionString)
         {
@@ -201,7 +210,7 @@ namespace Habit_Tracker
 
         }
 
-        private static void GetAllRecords()
+        private static void GetAllRecords(string habit)
         {
             Console.Clear();
             using (var connection = new SqliteConnection(connectionString))
@@ -246,7 +255,7 @@ namespace Habit_Tracker
         private static void Delete()
         {
             Console.Clear();
-            GetAllRecords();
+            // GetAllRecords();
 
             var recordId = GetNumberInput("\n\nPlease type the Id of the record you want to delete or tpye 0 to go back to Main Menu.\n\n");
             
@@ -266,11 +275,11 @@ namespace Habit_Tracker
 
                 Console.WriteLine($"\n\nRecord with Id {recordId} was deleted.");
 
-                GetUserInput();
+                // GetUserInput();
             }      
         }
 
-        private static void Insert()
+        private static void Insert(string habit)
         {
             string date = GetDateInput();
 
@@ -281,7 +290,7 @@ namespace Habit_Tracker
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
                 tableCmd.CommandText = 
-                $"INSERT INTO drinking_water(date,quantity) VALUES('{date}', '{quantity}')";
+                $"INSERT INTO {habit}(date,quantity) VALUES('{date}', '{quantity}')";
 
                 tableCmd.ExecuteNonQuery();
 
@@ -289,10 +298,10 @@ namespace Habit_Tracker
             }
         }
 
-        internal static void Update()
+        internal static void Update(string habit)
         {
             Console.Clear();
-            GetAllRecords();
+            // GetAllRecords();
 
             var recordId = GetNumberInput("\n\nPlease type Id of the record you would like to update. Type 0 to main menu.\n\n");
 
@@ -301,14 +310,14 @@ namespace Habit_Tracker
                 connection.Open();
 
                 var checkCmd = connection.CreateCommand();
-                checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM drinking_water WHERE id = {recordId})";
+                checkCmd.CommandText = $"SELECT EXISTS(SELECT 1 FROM {habit} WHERE id = {recordId})";
                 int checkQuery = Convert.ToInt32(checkCmd.ExecuteScalar());
 
                 if (checkQuery == 0)
                 {
                     Console.WriteLine($"\n\nRecord with Id {recordId} does not exist.\n\n");
                     connection.Close();
-                    Update();
+                    Update("");
                 }
 
                 string date = GetDateInput();
@@ -332,9 +341,8 @@ namespace Habit_Tracker
            
            string dateInput = Console.ReadLine();
 
-           if (dateInput == "0") GetUserInput();
-           
-           while(!DateTime.TryParseExact(dateInput, "dd-MM-yy", new CultureInfo("en-US"), DateTimeStyles.None, out _))
+        if (dateInput == "0") GetUserInput("");
+        while(!DateTime.TryParseExact(dateInput, "dd-MM-yy", new CultureInfo("en-US"), DateTimeStyles.None, out _))
            {
                 Console.WriteLine("\n\nInvalid date. (Format: dd-MM-yy. Type 0 to return to main menu or try again:\n\n)");
                 dateInput = Console.ReadLine();
@@ -348,7 +356,7 @@ namespace Habit_Tracker
 
             string numberInput = Console.ReadLine();
 
-            if(numberInput == "0") GetUserInput();
+            if(numberInput == "0") GetUserInput("");
 
             
             while(!Int32.TryParse(numberInput, out _) || Convert.ToInt32(numberInput) < 0)
