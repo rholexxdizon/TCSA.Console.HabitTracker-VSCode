@@ -252,7 +252,7 @@ namespace Habit_Tracker
             }
         }
 
-        private static void Delete()
+        private static void Delete(string habit)
         {
             Console.Clear();
             // GetAllRecords();
@@ -270,7 +270,7 @@ namespace Habit_Tracker
                 if(rowCount == 0)
                 {
                     Console.WriteLine($"\n\nRecord with Id {recordId} doesn't exist. \n\n");
-                    Delete();
+                    Delete("");
                 }
 
                 Console.WriteLine($"\n\nRecord with Id {recordId} was deleted.");
@@ -283,7 +283,7 @@ namespace Habit_Tracker
         {
             string date = GetDateInput();
 
-            int quantity = GetNumberInput("\n\nPlease insert number of glasses or other measure of your choice (no decimals allowed).\n\n");
+            int quantity = GetNumberInput("\n\nPlease insert how much: \n\n");
 
             using (var connection = new SqliteConnection(connectionString))
             {
