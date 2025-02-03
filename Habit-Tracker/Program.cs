@@ -184,8 +184,6 @@ namespace Habit_Tracker
             }
         }
 
-        
-
         static List<string> GetTableNames(string connectionString)
         {
             List<string> tableNames = new List<string>();
@@ -207,7 +205,6 @@ namespace Habit_Tracker
 
             }
             return tableNames;
-
         }
 
         private static void GetAllRecords(string habit)
@@ -252,7 +249,7 @@ namespace Habit_Tracker
             }
         }
 
-        private static void Delete(string habit)
+        private static void Delete()
         {
             Console.Clear();
             // GetAllRecords();
@@ -270,11 +267,10 @@ namespace Habit_Tracker
                 if(rowCount == 0)
                 {
                     Console.WriteLine($"\n\nRecord with Id {recordId} doesn't exist. \n\n");
-                    Delete("");
+                    Delete();
                 }
 
                 Console.WriteLine($"\n\nRecord with Id {recordId} was deleted.");
-
                 // GetUserInput();
             }      
         }
@@ -331,7 +327,6 @@ namespace Habit_Tracker
                 tableCmd.ExecuteNonQuery();
 
                 connection.Close();
-                
             }
         }
 
@@ -342,11 +337,13 @@ namespace Habit_Tracker
            string dateInput = Console.ReadLine();
 
         if (dateInput == "0") GetUserInput("");
+
         while(!DateTime.TryParseExact(dateInput, "dd-MM-yy", new CultureInfo("en-US"), DateTimeStyles.None, out _))
            {
                 Console.WriteLine("\n\nInvalid date. (Format: dd-MM-yy. Type 0 to return to main menu or try again:\n\n)");
                 dateInput = Console.ReadLine();
            }
+           
            return dateInput;
         }
 
