@@ -46,7 +46,7 @@ namespace Habit_Tracker
                         ChooseHabit();
                         break;
                     case "3":
-                        Delete();
+                        Delete("");
                         break;
                     case "4":
                         Update("");
@@ -171,7 +171,7 @@ namespace Habit_Tracker
                         Insert(habit);
                         break;
                     case "3":
-                        Delete();
+                        Delete(habit);
                         break;
                     case "4":
                         Update(habit);
@@ -237,6 +237,7 @@ namespace Habit_Tracker
                 else
                 {
                     Console.WriteLine("No rows found.");
+                   
                 }
                 connection.Close();
 
@@ -249,29 +250,29 @@ namespace Habit_Tracker
             }
         }
 
-        private static void Delete()
+        private static void Delete(string habit)
         {
             Console.Clear();
-            // GetAllRecords();
-
+            GetAllRecords(habit);
+            
             var recordId = GetNumberInput("\n\nPlease type the Id of the record you want to delete or tpye 0 to go back to Main Menu.\n\n");
             
             using (var connection = new SqliteConnection(connectionString))
             {
                 connection.Open();
                 var tableCmd = connection.CreateCommand();
-                tableCmd.CommandText = $"DELETE from drinking_water WHERE Id = '{recordId}'";
+                tableCmd.CommandText = $"DELETE from {habit} WHERE Id = '{recordId}'";
 
                 int rowCount = tableCmd.ExecuteNonQuery();
 
                 if(rowCount == 0)
                 {
                     Console.WriteLine($"\n\nRecord with Id {recordId} doesn't exist. \n\n");
-                    Delete();
+                    Delete("");
                 }
 
                 Console.WriteLine($"\n\nRecord with Id {recordId} was deleted.");
-                // GetUserInput();
+                GetUserInput("");
             }      
         }
 
@@ -365,6 +366,8 @@ namespace Habit_Tracker
 
             return finalInput;
         }
+
+        
 
         public class DrinkingWater
         {
