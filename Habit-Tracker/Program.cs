@@ -45,12 +45,6 @@ namespace Habit_Tracker
                     case "2":
                         ChooseHabit();
                         break;
-                    case "3":
-                        Delete("");
-                        break;
-                    case "4":
-                        Update("");
-                        break;
                     default:
                         Console.Clear();
                         Console.WriteLine("Invalid command. Please type a number from 0 to 4.");
@@ -272,7 +266,7 @@ namespace Habit_Tracker
                 }
 
                 Console.WriteLine($"\n\nRecord with Id {recordId} was deleted.");
-                GetUserInput("");
+                // GetUserInput("");
             }      
         }
 
@@ -298,7 +292,7 @@ namespace Habit_Tracker
         internal static void Update(string habit)
         {
             Console.Clear();
-            // GetAllRecords();
+            GetAllRecords(habit);
 
             var recordId = GetNumberInput("\n\nPlease type Id of the record you would like to update. Type 0 to main menu.\n\n");
 
@@ -314,7 +308,6 @@ namespace Habit_Tracker
                 {
                     Console.WriteLine($"\n\nRecord with Id {recordId} does not exist.\n\n");
                     connection.Close();
-                    Update("");
                 }
 
                 string date = GetDateInput();
