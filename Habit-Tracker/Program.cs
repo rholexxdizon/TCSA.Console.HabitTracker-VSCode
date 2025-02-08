@@ -22,12 +22,13 @@ namespace Habit_Tracker
             bool closeApp = false;
             while (closeApp == false)
             {
-                Console.WriteLine("\n\nThe CSharp Academy Console Calculator");
-                Console.WriteLine("\n\nMAIN MENU");
-                Console.WriteLine("What would you like to do?");
-                Console.WriteLine("Type 0 - Close Application");
-                Console.WriteLine("Type 1 - Create a New Habit");
-                Console.WriteLine("Type 2 - Choose an Existing Habit");
+                Console.WriteLine("The CSharp Academy Console Calculator");
+                Console.WriteLine("-------------------------------------");
+                Console.WriteLine("MAIN MENU");
+                Console.WriteLine("\n\n0 - close application");
+                Console.WriteLine("C - create new habit");
+                Console.WriteLine("E - existing habit");
+                Console.WriteLine("-------------------------------------");
 
                 string choice = Console.ReadLine();
                 
