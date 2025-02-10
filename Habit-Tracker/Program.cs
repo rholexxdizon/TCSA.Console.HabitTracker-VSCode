@@ -236,12 +236,12 @@ namespace Habit_Tracker
                 }
                 connection.Close();
 
-                Console.WriteLine("-------------------------------------------------\n");
+                Console.WriteLine("-------------------------------------------\n");
                 foreach (var dw in tableData)
                 {
                     Console.WriteLine($"{dw.Id} - {dw.Date.ToString("dd-MMM-yyyy")} - Quantity: {dw.Quantity}");
                 }
-                Console.WriteLine("-------------------------------------------------\n");
+                Console.WriteLine("------------------------------------------\n");
             }
         }
 
